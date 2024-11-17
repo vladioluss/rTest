@@ -1,0 +1,24 @@
+/*
+* Цвета интерфейса и стандартная светлая тема интерфейса
+**/
+:root {
+  --primary: #845EF7;
+  --primary-hover: #A5AFFB;
+
+  --gray-0: #F8F9FA;
+  --gray-6: #868E96;
+  --gray-8: #343A40;
+
+  --color-background: white;
+
+  color-scheme: light;
+}
+
+/*
+* Сброс начальный настроек
+**/
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
