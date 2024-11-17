@@ -2,8 +2,8 @@
 import {computed, defineProps, ref} from 'vue';
 
 const props = defineProps<{
-  data: []; // Данные таблицы
-  level: number; // Уровень вложенности
+  data: object // Данные таблицы
+  level: number // Уровень вложенности
 }>()
 
 // Локальное состояние для управления раскрытием строк

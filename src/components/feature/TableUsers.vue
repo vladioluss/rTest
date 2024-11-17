@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import {computed, defineProps, ref} from 'vue';
 import TableRow from "@/components/feature/TableRow.vue";
 
 interface TableRow {
@@ -21,14 +21,45 @@ const props = withDefaults(
       level: 0,
     }
 )
+
+// Состояние сортировки
+const sortField = ref('name')
+const sortDirection = ref(1)
+
+// Функция для сортировки данных
+function sortRecursive(data: TableRow[], prop: string, direction: number) {
+  data.sort((a, b) => {
+    if (a[prop] < b[prop]) return -1 * direction;
+    if (a[prop] > b[prop]) return 1 * direction;
+    return 0;
+  })
+
+  data.forEach(item => {
+    if (item.children && item.children.length > 0) {
+      sortRecursive(item.children, prop, direction);
+    }
+  })
+}
+
+// Обработчик события для сортировки
+const sortBy = (field: string) => {
+  if (sortField.value === field) {
+    // Меняем направление сортировки
+    sortDirection.value *= -1;
+  } else {
+    sortField.value = field;
+    sortDirection.value = 1;
+  }
+  sortRecursive(props.data, field, sortDirection.value);
+}
 </script>
 
 <template>
   <div class="table">
     <!-- Заголовок таблицы -->
     <div class="header">
-      <h4>Имя</h4>
-      <h4>Телефон</h4>
+      <h4 @click="sortBy('name')">Имя</h4>
+      <h4 @click="sortBy('phone')">Телефон</h4>
     </div>
 
     <!-- Данные таблицы -->
@@ -53,5 +84,9 @@ const props = withDefaults(
   padding: 8px;
   justify-content: space-around;
   border: 1px solid #e5e5e5;
+}
+
+.header h4 {
+  cursor: pointer;
 }
 </style>
